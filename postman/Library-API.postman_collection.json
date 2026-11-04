@@ -403,6 +403,96 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "TC13 - POST borrow book",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Trả về 200\", () => pm.response.to.have.status(200));\r\npm.test(\"Quantity giảm còn 4\", () => {\r\n    pm.expect(pm.response.json().quantity).to.eql(4);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books/1/borrow",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books",
+            "1",
+            "borrow"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC14 - POST borrow out of stock",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Trả về 409\", () => pm.response.to.have.status(409));\r\npm.test(\"Đúng định dạng lỗi và thông báo\", () => {\r\n    const body = pm.response.json();\r\n    pm.expect(body.error).to.eql(\"conflict\");\r\n    pm.expect(body.message).to.eql(\"Sách đã hết\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books/3/borrow",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books",
+            "3",
+            "borrow"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "TC15 - POST return book",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Trả về 200\", () => pm.response.to.have.status(200));\r\npm.test(\"Quantity tăng lại 5\", () => {\r\n    pm.expect(pm.response.json().quantity).to.eql(5);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/books/1/return",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "books",
+            "1",
+            "return"
+          ]
+        }
+      },
+      "response": []
     }
   ],
   "variable": [
